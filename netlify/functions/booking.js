@@ -21,7 +21,11 @@ export async function handler(event) {
     // Одна "ячейка" хранилища на каждую пару дата+время, например 2026-08-12_18:00.
     // Netlify Blobs — встроенное key-value хранилище для функций, отдельную
     // базу данных поднимать не нужно.
-    const store = getStore('bookings')
+   const store = getStore({
+  name: 'bookings',
+  siteID: process.env.NETLIFY_SITE_ID,
+  token: process.env.NETLIFY_API_TOKEN,
+})
     const slotKey = `${date}_${time}`
     const slot = (await store.get(slotKey, { type: 'json' })) || { count: 0 }
 
